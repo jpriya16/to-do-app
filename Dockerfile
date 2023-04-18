@@ -1,4 +1,4 @@
-FROM node:16-alpine3.16
+FROM node:16-alpine3.16 AS build-stage
 WORKDIR /app
 COPY package.json /app
 COPY yarn.lock /app
@@ -8,5 +8,5 @@ COPY . /app
 
 RUN yarn build
 
-EXPOSE 3000
-CMD ["yarn", "start"]
+FROM nginx:alpine
+COPY --from=build-stage /app/build/ /usr/share/nginx/html

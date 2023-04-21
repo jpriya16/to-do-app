@@ -22,8 +22,9 @@ pipeline {
                     script {
                         env.image_id = "${user}/to-do-app:${currentBuild.number}"
                         echo "${env.image_id}"
+                        build job: 'infrastructure-to-do-app', parameters: [string(name: 'image_id', value: "${env.image_id}")]
                     }
-//                     sh "docker push ${user}/to-do-app:latest"
+
                 }
             }
         }

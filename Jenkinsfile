@@ -19,7 +19,11 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'pass', usernameVariable: 'user')]) {
                     sh "docker login -u ${user} -p ${pass}"
                     sh "docker push ${user}/to-do-app:${currentBuild.number}"
-                    sh "docker push ${user}/to-do-app:latest"
+                    script {
+                        env.image_id = "${user}/to-do-app:${currentBuild.number}"
+                        echo "${env.image_id}"
+                    }
+//                     sh "docker push ${user}/to-do-app:latest"
                 }
             }
         }
